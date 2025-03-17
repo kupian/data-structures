@@ -61,11 +61,12 @@ public class BST {
         return min(root);
     }
 
-    public static Node search(Node x, int key) {
+    public Node search(Node x, int key) {
         if(x == null) return null;
         if(x.key < key) return search(x.right, key);
         if(x.key > key) return search(x.left, key);
 
+        makeRoot(x);
         return x;
     }
 
@@ -222,6 +223,11 @@ public class BST {
         }
     }
 
+    public void insertRoot(Node x) {
+        insert(x);
+        makeRoot(x);
+    }
+
     public static void main(String[] args) {
         BST bst = new BST();
         bst.insert(bst.new Node(1,1));
@@ -234,16 +240,10 @@ public class BST {
         bst.insert(bst.new Node(8,1));
         bst.insert(bst.new Node(9,1));
         bst.insert(bst.new Node(10,1));
+
+        System.out.println(bst.root.key);
         Node x = bst.search(bst.root, 5);
-
-        bst.inorder(bst.root);
-
-        System.out.println(bst.checkBST());
         System.out.println(bst.root.key);
-        bst.makeRoot(x);
-        System.out.println(bst.root.key);
-
-        bst.preorder(bst.root);
 
     }
 }
