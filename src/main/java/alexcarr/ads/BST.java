@@ -186,4 +186,64 @@ public class BST {
 
         return inRangeBST(T.left, low, T.key) && inRangeBST(T.right, T.key, high);
     }
+
+    public void leftRotate(Node x) {
+        Node y = x.right;
+        x.right = y.left;
+        if (y.left != null) y.left.p = x;
+        y.p = x.p;
+        if (x.p == null) root = y;
+        else if(x == x.p.left) x.p.left = y;
+        else x.p.right = y;
+        y.left = x;
+        x.p = y;
+    }
+
+    public void rightRotate(Node x) {
+        Node y = x.left;
+        x.left = y.right;
+        if (y.right != null) y.right.p = x;
+        y.p = x.p;
+        if (x.p == null) root = y;
+        else if(x == x.p.right) x.p.right = y;
+        else x.p.left = y;
+        y.right = x;
+        x.p = y;
+    }
+
+    public void makeRoot(Node x) {
+        while (root != x) {
+            if (x == x.p.left) {
+                rightRotate(x.p);
+            }
+            else {
+                leftRotate(x.p);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        BST bst = new BST();
+        bst.insert(bst.new Node(1,1));
+        bst.insert(bst.new Node(2,1));
+        bst.insert(bst.new Node(3,1));
+        bst.insert(bst.new Node(4,1));
+        bst.insert(bst.new Node(5,1));
+        bst.insert(bst.new Node(6,1));
+        bst.insert(bst.new Node(7,1));
+        bst.insert(bst.new Node(8,1));
+        bst.insert(bst.new Node(9,1));
+        bst.insert(bst.new Node(10,1));
+        Node x = bst.search(bst.root, 5);
+
+        bst.inorder(bst.root);
+
+        System.out.println(bst.checkBST());
+        System.out.println(bst.root.key);
+        bst.makeRoot(x);
+        System.out.println(bst.root.key);
+
+        bst.preorder(bst.root);
+
+    }
 }
