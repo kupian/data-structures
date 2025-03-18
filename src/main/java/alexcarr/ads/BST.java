@@ -37,14 +37,14 @@ public class BST {
         return size() == 0;
     }
 
-    private Node max(Node x) {
+    private Node min(Node x) {
         while (x.left != null) {
             x = x.left;
         }
         return x;
     }
 
-    private Node min(Node x) {
+    private Node max(Node x) {
         while (x.right != null) {
             x = x.right;
         }
