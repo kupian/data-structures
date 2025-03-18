@@ -107,6 +107,72 @@ public class DynamicSet {
         }
     }
 
+    private static void traverseAndAddUnion(DynamicSet U, Node x) {
+        if (x == null) return;
+
+        if (x.left != null) traverseAndAddUnion(U, x.left);
+        if (!isElement(U, x.key)) {
+            add(U, x.key);
+        }
+        if (x.right != null) traverseAndAddUnion(U, x.right);
+    }
+
+    public static DynamicSet union(DynamicSet S, DynamicSet T) {
+        // Conduct an in-order on set T, adding each element to set S
+        if (T.root == null) return S;
+        DynamicSet U = new DynamicSet();
+
+        traverseAndAddUnion(U, T.root);
+        traverseAndAddUnion(U, S.root);
+
+        return U;
+    }
+
+    private static void traverseAndAddIntersect(DynamicSet I, DynamicSet S, DynamicSet T, Node x) {
+        // Conduct an in-order on node x, adding each element to I if and only if it is in both S & T and not already I
+        if (x == null) return;
+
+        if (x.left != null) traverseAndAddIntersect(I, S, T, x.left);
+        if (isElement(S, x.key) && isElement(T, x.key) && !isElement(I, x.key)) {
+            add(I, x.key);
+        }
+        if (x.right != null) traverseAndAddIntersect(I, S, T, x.right);
+    }
+
+    public static DynamicSet intersection(DynamicSet S, DynamicSet T) {
+        if (T.root == null) return S;
+
+        DynamicSet I = new DynamicSet();
+        traverseAndAddIntersect(I, S, T, S.root);
+        traverseAndAddIntersect(I, S, T, T.root);
+        return I;
+    }
+
+    private static void traverseAndAddDifference(DynamicSet D, DynamicSet T, Node x) {
+        if (x == null) return;
+
+        if (x.left != null) traverseAndAddDifference(D, T, x.left);
+        if (!isElement(D, x.key) && !isElement(T, x.key)) {
+            add(D, x.key);
+        }
+        if (x.right != null) traverseAndAddDifference(D, T, x.right);
+    }
+
+    public static DynamicSet difference(DynamicSet S, DynamicSet T) {
+        if (T.root == null) return S;
+
+        DynamicSet D = new DynamicSet();
+        traverseAndAddDifference(D, T, S.root);
+        return D;
+    }
+
+    private void inorder(Node T) {
+        if (T == null) return;
+        inorder(T.left);
+        System.out.println(T.key);
+        inorder(T.right);
+    }
+
     public static void main(String[] args) {
         DynamicSet S = new DynamicSet();
         add(S, 5);
@@ -117,11 +183,13 @@ public class DynamicSet {
         add(S,14);
         add(S,14);
 
-        System.out.println(isElement(S, 12));
-        delete(S, 12);
-        System.out.println(isElement(S, 12));
+        DynamicSet T = new DynamicSet();
+        add(T, 1);
+        add(T, 2);
+        add(T, 3);
+        add(T, 4);
 
-        System.out.println(setEmpty(S));
-        System.out.println(setSize(S));
+        DynamicSet D = difference(S, T);
+        D.inorder(D.root);
     }
 }
