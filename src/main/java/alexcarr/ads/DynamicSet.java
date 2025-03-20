@@ -166,12 +166,14 @@ public class DynamicSet {
         return D;
     }
 
-    private void inorder(Node T) {
+    private static void inOrder(Node T) {
         if (T == null) return;
-        inorder(T.left);
+        inOrder(T.left);
         System.out.println(T.key);
-        inorder(T.right);
+        inOrder(T.right);
     }
+
+    private static void inOrder(DynamicSet S) { inOrder(S.root); }
 
     public static void main(String[] args) {
         DynamicSet S = new DynamicSet();
@@ -190,6 +192,6 @@ public class DynamicSet {
         add(T, 4);
 
         DynamicSet D = difference(S, T);
-        D.inorder(D.root);
+        inOrder(D);
     }
 }
