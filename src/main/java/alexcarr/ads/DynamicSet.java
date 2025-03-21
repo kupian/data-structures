@@ -166,6 +166,27 @@ public class DynamicSet {
         return D;
     }
 
+    private static boolean traverseAndCheckSubset(DynamicSet S, DynamicSet T, Node x) {
+
+        if (!isElement(T, x.key)) return false;
+        boolean left = true, right = true;
+
+        if (x.left != null) {
+            left = traverseAndCheckSubset(S, T, x.left);
+        }
+        if (x.right != null) {
+            right = traverseAndCheckSubset(S, T, x.right);
+        }
+
+        return left && right;
+    }
+
+    public static boolean subset(DynamicSet S, DynamicSet T) {
+        if (S.root == null) return true;
+        if (T.root == null) return false;
+        return traverseAndCheckSubset(S, T, S.root);
+    }
+
     private static void inOrder(Node T) {
         if (T == null) return;
         inOrder(T.left);
@@ -177,21 +198,10 @@ public class DynamicSet {
 
     public static void main(String[] args) {
         DynamicSet S = new DynamicSet();
-        add(S, 5);
-        add(S, 3);
-        add(S, 2);
-        add(S, 1);
-        add(S, 12);
-        add(S,14);
-        add(S,14);
+        add(S, 56);
 
         DynamicSet T = new DynamicSet();
-        add(T, 1);
-        add(T, 2);
-        add(T, 3);
-        add(T, 4);
 
-        DynamicSet D = difference(S, T);
-        inOrder(D);
+        System.out.println(subset(S, T));
     }
 }

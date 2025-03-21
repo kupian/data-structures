@@ -2,12 +2,17 @@ package alexcarr.ads;
 
 public class MinPriorityQueue {
     private int[] queue;
+
+    public int getSize() {
+        return size;
+    }
+
     private int size = 0;
     private int maxSize;
 
     public MinPriorityQueue(int maxSize) {
         this.maxSize = maxSize;
-        queue = new int[maxSize];
+        queue = new int[maxSize+1];
     }
 
     private boolean isLeaf(int i) {
@@ -93,15 +98,15 @@ public class MinPriorityQueue {
     public int remove()
     {
         int key = queue[1];
-        size--;
         queue[1] = queue[size];
+        size--;
         minHeapify(1);
 
         return key;
     }
 
     public static void main(String[] args) {
-        MinPriorityQueue minPriorityQueue = new MinPriorityQueue(10);
+        MinPriorityQueue minPriorityQueue = new MinPriorityQueue(4);
         minPriorityQueue.insert(10);
         minPriorityQueue.insert(20);
         minPriorityQueue.insert(30);
